@@ -1,0 +1,22 @@
+.signin {
+    max-width: 500px;
+    align-self: center;
+    margin: 0 auto;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 5px;
+    background: #fff;
+    // background: rgb(255, 245, 219);
+    // > .container {
+        // background: rgb(224, 255, 224);
+    // }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        > input,div {
+            margin: 12px 0;
+        }
+    }
+}

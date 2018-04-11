@@ -5,4 +5,49 @@ body {
   text-align: center;
 }
 
+.App {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: lightgrey;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style-type: none;
+}
+
+textarea {
+  resize: none;
+}
+
+.btn {
+  outline: none;
+  border: none;
+  padding: 8px 12px;
+  box-sizing: border-box;
+  font-size: 16px;
+  color: #fff;
+  background: #5e77e4;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.btn:active {
+  background: #4c62c7;
+}
+
+.input {
+  outline-color: #9dafff;
+  padding: 4px;
+  box-sizing: border-box;
+  border: 1px solid #aeceff;
+  border-radius: 4px;
+  font-size: 16px;
+}
+::placeholder {
+  color: #c3c7da;
+}
+
+@import '../Signin/Signin';
 @import '../Chat/Chat';
