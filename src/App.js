@@ -8,7 +8,7 @@ class App extends Component {
     return (
       <div className="App">
         <Switch>
-          <Route exact path="/" component={Signin} />
+          {/* <Route exact path="/" component={Signin} /> */}
           <Route path="/chat" component={Chat} />
         </Switch>
       </div>

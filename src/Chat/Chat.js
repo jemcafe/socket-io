@@ -1,48 +1,58 @@
 import React, { Component } from 'react';
 import axios from 'axios';
+import io from "socket.io-client";
+const socket = io(); // io defaults to the server
 
 class Chat extends Component {
     constructor () {
         super();
         this.state = {
-            messages: [{message: 'message 1'},{message: 'message 2'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'},{message: 'message 3'}],
+            messages: [],
+            username: '',
             message: ''
         }
 
-        this.sendMessage = () => {
-            socket.emit('SEND_MESSAGE', {  // sends the message to the server
-                author: this.state.username,
-                message: this.state.message
-            });
-            this.setState({ message: '' });
-        }
+        // this.sendMessage = (e) => {
+        //     e.preventDefault();
+        //     socket.emit('SEND_MESSAGE', {  // sends the message to the server
+        //         username: this.state.username,
+        //         message: this.state.message
+        //     });
+        //     this.setState({ message: '' });
+        // }
 
-        socket.on('RECEIVE_MESSAGE', function(data) {  // listens to incoming message
+        socket.on('RECEIVE_MESSAGE', (data) => {  // listens to incoming message
             addMessage(data);
         });
 
         // socket.on('DISCONNECT', )
     
         const addMessage = data => {
-            this.setState({messages: [...this.state.messages, data]});
+            this.setState(prevState => ({messages: [...prevState.messages, data]}));
         };
     }
 
     componentDidMount () {
-        axios.get('/user').then( user => {
-            if (user.data.username) {
-                console.log('User ->', user.data)
-                this.setState({ user: user.data });
-            } else this.props.history.push('/');
-        }).catch(err => console.log(err));
+        socket.emit('JOIN');
+
+        socket.on('GET_MESSAGES', (data) => { // gets past messages
+            console.log(data);
+        });
+        
+        // axios.get('/user').then( user => {
+        //     if (user.data.username) {
+        //         console.log('User ->', user.data)
+        //         this.setState({ user: user.data });
+        //     } else this.props.history.push('/');
+        // }).catch(err => console.log(err));
     }
 
-    signout = () => {
-        axios.post('/logout').then( user => {
+    // signout = () => {
+    //     axios.post('/logout').then( user => {
             // socket.on('DISCONNECT', )
-            this.props.history.push('/');
-        }).catch(err => console.log(err));
-    }
+    //         this.props.history.push('/');
+    //     }).catch(err => console.log(err));
+    // }
 
     handleChange = (property, value) => {
         this.setState({ [property]: value });
@@ -50,12 +60,11 @@ class Chat extends Component {
 
     sendMessage = (e) => {
         e.preventDefault();
-        // This is temporary
-        this.setState(prevState => ({ 
-            messages: [...prevState.messages, { message: prevState.message }],
-            message: ''
-        }));
-        console.log('Message sent');
+        socket.emit('SEND_MESSAGE', {  // sends the message to the server
+            username: this.state.username,
+            message: this.state.message
+        });
+        this.setState({ message: '' });
     }
 
     render () {
@@ -63,15 +72,14 @@ class Chat extends Component {
         return (
             <div className="chat">
                 <ul className="messages">
-                    { messages.map( (m, i) => {
-                        return <li key={i}>{m.message}</li>
-                    }) }
+                    { messages.map((m, i) => (<li key={i}>{m.username}: {m.message}</li>)) }
                 </ul>
                 <div className="container">
 
-                    <button className="signout-btn btn" onClick={this.signout}>Sign out</button>
+                    {/* <button className="signout-btn btn" onClick={this.signout}>Sign out</button> */}
 
                     <form onSubmit={this.sendMessage}>
+                        <input value={this.state.username} onChange={(e) => this.handleChange('username', e.target.value)}/>
                         <div style={{display:'flex'}}>
                             { user && <div className="avatar" style={{background:`center / cover no-repeat url(${user.avatar})`}}></div> }
                             <textarea className="input" value={message} placeholder="Message..." onChange={(e) => this.handleChange('message', e.target.value)}></textarea>
