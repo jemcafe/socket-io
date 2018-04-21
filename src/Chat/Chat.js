@@ -12,20 +12,9 @@ class Chat extends Component {
             message: ''
         }
 
-        // this.sendMessage = (e) => {
-        //     e.preventDefault();
-        //     socket.emit('SEND_MESSAGE', {  // sends the message to the server
-        //         username: this.state.username,
-        //         message: this.state.message
-        //     });
-        //     this.setState({ message: '' });
-        // }
-
-        socket.on('RECEIVE_MESSAGE', (data) => {  // listens to incoming message
+        socket.on('receive_message', (data) => {  // listens to incoming message
             addMessage(data);
         });
-
-        // socket.on('DISCONNECT', )
     
         const addMessage = data => {
             this.setState(prevState => ({messages: [...prevState.messages, data]}));
@@ -33,11 +22,11 @@ class Chat extends Component {
     }
 
     componentDidMount () {
-        socket.emit('JOIN');
+        // socket.emit('join');
 
-        socket.on('GET_MESSAGES', (data) => { // gets past messages
-            console.log(data);
-        });
+        // socket.on('get_messages', (data) => { // gets past messages
+        //     console.log(data);
+        // });
         
         // axios.get('/user').then( user => {
         //     if (user.data.username) {
@@ -47,6 +36,13 @@ class Chat extends Component {
         // }).catch(err => console.log(err));
     }
 
+    initSocket = () => {
+        socket.on('connect', () => {
+            console.log('Connected');
+        });
+        this.setState({socket});
+    }
+
     // signout = () => {
     //     axios.post('/logout').then( user => {
             // socket.on('DISCONNECT', )
@@ -54,13 +50,15 @@ class Chat extends Component {
     //     }).catch(err => console.log(err));
     // }
 
+
+
     handleChange = (property, value) => {
         this.setState({ [property]: value });
     }
 
     sendMessage = (e) => {
         e.preventDefault();
-        socket.emit('SEND_MESSAGE', {  // sends the message to the server
+        socket.emit('send_message', {  // sends the message to the server
             username: this.state.username,
             message: this.state.message
         });
