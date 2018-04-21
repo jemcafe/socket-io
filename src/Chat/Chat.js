@@ -22,6 +22,7 @@ class Chat extends Component {
     }
 
     componentDidMount () {
+        this.initSocket();
         // socket.emit('join');
 
         // socket.on('get_messages', (data) => { // gets past messages

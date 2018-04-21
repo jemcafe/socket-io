@@ -1,11 +1,10 @@
 require('dotenv').config();
-const app = require('express')(),  // express is invoked
+const app = require('express')(),
       bodyParser = require('body-parser'),
     //   session = require('express-session'),
     //   massive = require('massive'),
-      http = require('http'),
-      socket = require('socket.io'),
-      io = module.exports.io = socket( http.Server(app) );
+      server = require('http').Server(app), // http.Server listens to the server (app) for requests sent with an 'HTTP'.
+      io = module.exports.io = require('socket.io')(server);  // socket.io listens to the server for sockets
 
 // Controllers
 // const authCtrl = require('./controllers/auth_controller');
@@ -38,4 +37,4 @@ io.on('connection', socketCtrl);
 
 // Server listening
 const port = process.env.SERVER_PORT || 3080;
-app.listen(port, () => console.log(`Listening on port: ${port}`));
+server.listen(port, () => console.log(`Listening on port: ${port}`));
