@@ -8,7 +8,7 @@ const app = require('express')(),
 
 // Controllers
 // const authCtrl = require('./controllers/auth_controller');
-const socketCtrl = require('./controllers/socket_controller');
+const socketCtrl = require('./controllers/socket_controller/socket_controller');
 
 // Middleware
 // const checkSession = require('./middleware/checkForSession');

@@ -13,12 +13,10 @@ class Chat extends Component {
         }
 
         socket.on('receive_message', (data) => {  // listens to incoming message
-            addMessage(data);
+            this.setState(prevState => ({
+                messages: [...prevState.messages, data]
+            }));
         });
-    
-        const addMessage = data => {
-            this.setState(prevState => ({messages: [...prevState.messages, data]}));
-        };
     }
 
     componentDidMount () {
@@ -37,24 +35,24 @@ class Chat extends Component {
         // }).catch(err => console.log(err));
     }
 
+    handleChange = (property, value) => {
+        this.setState({ [property]: value });
+    }
+
     initSocket = () => {
         socket.on('connect', () => {
             console.log('Connected');
+            // socket.emit('join');
         });
-        this.setState({socket});
+        console.log(socket);
+        this.getMessages();
     }
 
-    // signout = () => {
-    //     axios.post('/logout').then( user => {
-            // socket.on('DISCONNECT', )
-    //         this.props.history.push('/');
-    //     }).catch(err => console.log(err));
-    // }
-
-
-
-    handleChange = (property, value) => {
-        this.setState({ [property]: value });
+    getMessages = () => {
+        socket.on('get_messages', messages => {
+            console.log('messages', messages);
+            this.setState({messages});
+        });
     }
 
     sendMessage = (e) => {
@@ -66,16 +64,27 @@ class Chat extends Component {
         this.setState({ message: '' });
     }
 
+    // logout = () => {
+    //     axios.post('/logout').then( user => {
+    //         socket.on('disconnect', )
+    //         this.props.history.push('/');
+    //     }).catch(err => console.log(err));
+    // }
+
     render () {
         const { user, messages, message } = this.state;
         return (
             <div className="chat">
                 <ul className="messages">
-                    { messages.map((m, i) => (<li key={i}>{m.username}: {m.message}</li>)) }
+                    <div className="container">
+                    { messages.map((m, i) => (
+                        <li key={i} style={{wordBreak:'break-all'}}>{m.username}: {m.message}</li>)
+                    ) }
+                    </div>
                 </ul>
                 <div className="container">
 
-                    {/* <button className="signout-btn btn" onClick={this.signout}>Sign out</button> */}
+                    {/* <button className="signout-btn btn" onClick={this.logout}>Sign out</button> */}
 
                     <form onSubmit={this.sendMessage}>
                         <input value={this.state.username} onChange={(e) => this.handleChange('username', e.target.value)}/>
