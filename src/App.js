@@ -1,14 +1,14 @@
 import React, { Component } from 'react';
 import { Switch, Route } from 'react-router-dom';
-import Chat from './Chat/Chat';
-import Signin from './Signin/Signin';
+import Chat from './components/Chat/Chat';
+import Login from './components/Login/Login';
 
 class App extends Component {
   render() {
     return (
       <div className="App">
         <Switch>
-          <Route exact path="/" component={Signin} />
+          <Route exact path="/" component={Login} />
           <Route path="/chat" component={Chat} />
         </Switch>
       </div>

@@ -49,5 +49,5 @@ textarea {
   color: #c3c7da;
 }
 
-@import '../Signin/Signin';
-@import '../Chat/Chat';
+@import 'components/Login';
+@import 'components/Chat';
