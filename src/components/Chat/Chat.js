@@ -1,6 +1,4 @@
 import React, { Component } from 'react';
-import io from "socket.io-client";
-const socket = io(); // io defaults to the server
 
 class Chat extends Component {
     constructor () {
@@ -31,14 +29,6 @@ class Chat extends Component {
         this.setState({ [property]: value });
     }
 
-    initSocket = () => {
-        socket.on('connect', () => {
-            console.log('Connected');
-            // socket.emit('join');
-        });
-        console.log(socket);
-        // this.getMessages();
-    }
 
     getMessages = () => {
         socket.on('get_messages', messages => {

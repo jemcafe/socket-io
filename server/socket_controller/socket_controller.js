@@ -60,9 +60,24 @@ module.exports = (socket) => {
 }
 
 // Create user
-const createUser = (data) => ({
+const createUser = ({ username="" } = {}) => ({  // If no object is sent, the default object is set to the default values
+    id: uuidv4(),
+    username
+});
+
+// Create message
+const createMessage = ({ message="", username="" } = {}) => ({
     id: uuidv4(),
     time: new Date(),
-    message: data.message,
-    username: data.username
+    message,
+    username
+});
+
+// Create Chat
+const createChat = ({ name="Open", messages="", users=[] } = {}) => ({
+    id: uuidv4(),
+    name,
+    messages,
+    users,
+    userTyping: []
 });

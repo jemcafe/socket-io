@@ -1,23 +1,11 @@
 import React, { Component } from 'react';
-import io from "socket.io-client";
-const socket = io(); // io defaults to the server
 
 class Login extends Component {
     constructor () {
         super();
-        this.state = { 
+        this.state = {
             username: ''
         }
-    }
-
-    componentDidMount () {
-        console.log('Socket', socket);
-    }
-
-    login = (e) => {
-        e.preventDefault();
-        const { username } = this.state;
-        socket.emit('login', username);
     }
 
     render () {

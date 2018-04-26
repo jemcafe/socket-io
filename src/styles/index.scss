@@ -5,13 +5,6 @@ body {
   text-align: center;
 }
 
-.App {
-  display: flex;
-  width: 100vw;
-  height: 100vh;
-  background: lightgrey;
-}
-
 ul {
   margin: 0;
   padding: 0;
@@ -29,7 +22,7 @@ textarea {
   box-sizing: border-box;
   font-size: 16px;
   color: #fff;
-  background: #5e77e4;
+  background: #6b5ee4;
   border-radius: 4px;
   cursor: pointer;
 }
@@ -37,12 +30,13 @@ textarea {
   background: #4c62c7;
 }
 
-.input {
-  outline-color: #9dafff;
+.input, textarea {
+  outline: none;
+  border: none;
+  border-radius: 0;
+  border-bottom: 1px solid #6b5ee4;
   padding: 4px;
   box-sizing: border-box;
-  border: 1px solid #aeceff;
-  border-radius: 4px;
   font-size: 16px;
 }
 ::placeholder {
