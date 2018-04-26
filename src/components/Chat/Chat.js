@@ -18,17 +18,11 @@ class Chat extends Component {
 
     componentDidMount () {
         this.initSocket();
-        // socket.emit('join');
-
-        // socket.on('get_messages', (data) => { // gets past messages
-        //     console.log(data);
-        // });
     }
 
     handleChange = (property, value) => {
         this.setState({ [property]: value });
     }
-
 
     getMessages = () => {
         socket.on('get_messages', messages => {
@@ -45,10 +39,6 @@ class Chat extends Component {
         });
         this.setState({ message: '' });
     }
-
-    // logout = () => {
-    //     
-    // }
 
     render () {
         const { user, messages, message } = this.state;
