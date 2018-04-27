@@ -16,23 +16,21 @@ class Chat extends Component {
         });
     }
 
-    componentDidMount () {
-        this.initSocket();
-    }
-
     handleChange = (property, value) => {
         this.setState({ [property]: value });
     }
 
-    getMessages = () => {
-        socket.on('get_messages', messages => {
-            console.log('messages', messages);
-            this.setState({messages});
-        });
-    }
+    // getMessages = () => {
+    //     const { socket } = this.props;
+    //     socket.on('get_messages', messages => {
+    //         console.log('messages', messages);
+    //         this.setState({messages});
+    //     });
+    // }
 
     sendMessage = (e) => {
         e.preventDefault();
+        const { socket } = this.props;
         socket.emit('send_message', {  // sends the message to the server
             username: this.state.username,
             message: this.state.message
